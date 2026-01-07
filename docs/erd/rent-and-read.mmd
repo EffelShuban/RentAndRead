@@ -4,7 +4,8 @@ erDiagram
     USER ||--o{ RENTAL : makes
     BOOK ||--o{ RENTAL : "is rented"
     RENTAL ||--|| PAYMENT : "has one"
-    GENRE ||--o{ BOOK : "categorizes"
+    BOOK ||--o{ BOOK_GENRES : "has many"
+    GENRE ||--o{ BOOK_GENRES : "belongs to many"
 
     USER {
         uint id PK
@@ -24,7 +25,6 @@ erDiagram
 
     BOOK {
         uint id PK
-        uint genre_id FK
         string isbn UK
         string title
         string author
@@ -33,6 +33,11 @@ erDiagram
         int available_stock
         datetime created_at
         datetime updated_at
+    }
+
+    BOOK_GENRES {
+        uint book_id FK
+        uint genre_id FK
     }
 
     RENTAL {
