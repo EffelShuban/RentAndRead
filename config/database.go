@@ -20,22 +20,32 @@ func InitDB() {
 	}
 
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable prefer_simple_protocol=true",
 		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
 	)
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	DB, err = gorm.Open(postgres.New(postgres.Config{
+		DSN: dsn,
+		PreferSimpleProtocol: true,
+	}), &gorm.Config{
+		PrepareStmt: false,
+	})
 	if err != nil {
-		log.Fatalf("error in establishing connection with database")
+		log.Fatalf("error connecting to database: %v", err)
 	}
 
-	DB.AutoMigrate(
-		&models.User{}, 
-		&models.Book{}, 
-		&models.Rental{}, 
+	err = DB.AutoMigrate(
+		&models.User{},
+		&models.Book{},
+		&models.Rental{},
 		&models.Payment{},
+		&models.TopUp{},
 	)
+	if err != nil {
+		log.Fatalf("error migrating database: %v", err)
+	}
 }

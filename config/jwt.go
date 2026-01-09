@@ -11,7 +11,7 @@ import (
 
 var JwtSecret []byte
 
-func LoadJwtConfig(){
+func InitJwt(){
 	err := godotenv.Load()
 	if err != nil{
 		log.Fatalf("error in loading jwt secret from env: %v", err)
