@@ -36,20 +36,30 @@ The system uses a relational PostgreSQL schema to ensure data integrity, especia
 
 ![ERD Image](/docs/erd/mermaid-diagram-2026-01-08-101502.png)
 
-🚦 API Endpoints (Quick Reference)
-Books
+## 🚦 API Endpoints (Quick Reference)
 
-    GET /books - List all books with their genre names.
+### 📚 Books
 
-    GET /books/:id - Get specific book details.
+- `GET /api/books` - List all books with their genre names.
+- `GET /api/users/books` - List books rented by the current user.
+- `GET /api/users/books/active` - List currently active rentals for the user.
 
-Wallet & Payments
+### 👤 Users
 
-    POST /wallet/topup - Request a balance top-up (returns Xendit URL).
+- `POST /api/users/register` - Register a new user.
+- `POST /api/users/login` - Login and receive a JWT token.
 
-    POST /webhooks/xendit - Callback for Xendit to confirm payments.
+### 💳 Wallet & Payments
 
-Rentals
+- `GET /api/wallet/balance` - Check current wallet balance.
+- `POST /api/wallet/topup` - Request a balance top-up (returns Xendit URL).
+- `POST /webhooks/xendit` - Callback for Xendit to confirm payments.
 
-    POST /rentals - Rent a book using wallet balance.
-    
+### 📖 Rentals
+
+- `POST /api/rentals` - Rent a book (uses Wallet balance or generates Xendit Invoice).
+- `POST /api/rentals/:id/return` - Return a rented book.
+
+### 📄 Documentation
+
+- `GET /swagger/index.html` - Interactive API documentation.
