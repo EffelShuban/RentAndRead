@@ -62,7 +62,7 @@ func main() {
     c := cron.New()
     // Run daily at 09:00 AM -> 0 9 * * *
     // Run every 5 minutes -> */5 * * * *
-    _, _ = c.AddFunc("*/1 * * * *", func() {
+    _, _ = c.AddFunc("0 9 * * *", func() {
         log.Println("Running daily rental due reminders...")
         if err := rentalSvc.SendDueReminders(context.Background()); err != nil {
             log.Printf("Error sending reminders: %v", err)
